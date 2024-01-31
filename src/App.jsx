@@ -1,12 +1,15 @@
 import './App.css';
 import MyRoutes from './MyRoutes';
+import Navbar from './components/Navbar';
+import VideoCall from './components/VideoCall';
 // import HomePage from './components/HomePage';
 
 function App() {
   return (
-    <div className='md:mx-9'>
-    {/* <HomePage /> */}
-    <MyRoutes />
+    <div className='md:mx-3'>
+      <Navbar/>
+      <VideoCall/>
+      <MyRoutes />
     </div>
   )
 }

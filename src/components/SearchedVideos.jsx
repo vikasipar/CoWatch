@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { clickedVideoIdAtom, homeAtom } from '../store/atoms/search';
+import { useSetRecoilState } from "recoil";
 
 function SearchedVideos({ video, id }) {
 
     const [videoId, setVideoId]  = useState("");
+    const setHomeAtom = useSetRecoilState(homeAtom);
+    const setClickedVideoId = useSetRecoilState(clickedVideoIdAtom);
     const [videoSrc, setVideoSrc]  = useState("");
     const [channelId, setChannelId]  = useState("");
     const [title, setTitle]  = useState("");
@@ -31,7 +34,7 @@ function SearchedVideos({ video, id }) {
     <div className="mx-2 mt-1 md:mt-7 md:mx-9">
             {
                 videoSrc? (
-                <Link key={videoId} to={`/watch/${videoId}`} className="mx-9 md:mx-9 md:my-9 md:flex md:space-x-5 hover:cursor-pointer">
+                <div key={videoId} onClick={() => {setClickedVideoId(videoId); setHomeAtom(false)}} className="mx-9 md:mx-9 md:my-9 md:flex md:space-x-5 hover:cursor-pointer">
                         <img src={videoSrc} alt={videoSrc} className="rounded-lg md:rounded-xl hover:rounded-none hover:cursor-pointer" />
                         <div className="flex-col md:space-y-5">
                             <h2 className="text-lg md:text-xl text-left font-medium md:font-normal mt-2" >{title}</h2>
@@ -40,10 +43,10 @@ function SearchedVideos({ video, id }) {
                             </h4>
                             <h5 className="hidden md:block text-left text-sm text-gray-600" >{description}</h5>
                         </div>
-                </Link>
+                </div>
                 ) : (
                 <div className="flex items-center mx-9 md:mx-9 md:my-7 sm:my-5 space-x-6 md:space-x-10">
-                    <img src={channelId} alt={channelId} className="p-1 border border-2 border-red-600 rounded-full " />
+                    <img src={channelId} alt={channelId} className="p-1 border-2 border-red-600 rounded-full " />
                     <div className="flex-col space-y-3">
                         <h2 className="text-xl text-left font-medium md:font-normal" >{title}</h2>
                         <h5 className="hidden md:inline-block text-left text-sm text-gray-600" >{description}</h5>
