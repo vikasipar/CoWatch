@@ -131,7 +131,7 @@ const VideoCall = () => {
     };
 
     return (
-        <div className='flex md:flex-col w-full h-32 px-1 md:px-auto md:h-auto md:w-[16%] mx-auto fixed md:fixed border-2 border-gray-300 md:border-gray-200 rounded md:px-3 md:py-2 bg-white/50 backdrop-blur-[10px] bottom-1 md:bottom-auto left-0 md:left-auto right-0 md:right-0 md:top-16 overflow-x-hidden shadow-none md:shadow-3xl'>
+        <div className='flex md:flex-col w-full h-32 px-1 md:px-auto md:h-auto md:w-[16%] mx-auto fixed md:fixed border-2 border-gray-300 md:border-gray-200 rounded md:px-3 md:py-2 bg-white/50 backdrop-blur-[12px] bottom-0 md:bottom-auto left-0 md:left-auto right-0 md:right-0 md:top-16 overflow-x-hidden shadow-none md:shadow-3xl'>
             <h1 className='hidden md:flex md:items-center md:gap-2 text-left mb-2 text-orange-500 text-xl font-semibold'><LuYoutube className='text-2xl'/>CoWatch</h1>
             <div className='flex md:flex-col flex-wrap w-full md:space-y-5 my-auto'>
                 <div className='w-[47%] md:w-[99%] mx-auto overflow-x-hidden'>

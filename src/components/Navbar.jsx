@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import { IoIosSearch } from "react-icons/io";
 import { searchTermAtom, videosAtom, selectedVideosAtom, loadingAtom, clickedVideoIdAtom, homeAtom } from '../store/atoms/search';
 import { useRecoilValue ,useSetRecoilState } from 'recoil';
 
@@ -57,9 +58,9 @@ function Navbar() {
             />
             <button 
                 type="submit" 
-                className="border py-1 md:mt-1 px-3 border-gray-900 rounded-r-2xl border-l-0 hover:bg-gray-200"
+                className="border py-1 md:mt-1 px-3 text-xl border-gray-900 rounded-r-2xl border-l-0 hover:bg-gray-200"
             >
-                <img src="https://www.freeiconspng.com/uploads/search-icon-png-9.png" alt="search" className="w-5 bg-blend-multiply" /> 
+                <IoIosSearch /> 
             </button>
         </form>
     </div>

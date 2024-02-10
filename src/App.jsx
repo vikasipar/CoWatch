@@ -6,7 +6,7 @@ import VideoCall from './components/VideoCall';
 
 function App() {
   return (
-    <div className='md:mx-3 bg-sky-400 overflow-hidden'>
+    <div className='md:mx-3 overflow-hidden'>
       <Navbar/>
       <VideoCall/>
       <MyRoutes />
