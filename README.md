@@ -1,32 +1,38 @@
-# <img src="https://cdn-icons-png.flaticon.com/512/174/174883.png" width="50"> &nbsp;&nbsp; Youtube Clone
-Live Site: 👉 [click here](https://youtube-clone.vikasipar.vercel.app/)
+## <img src="https://freelogopng.com/images/all_img/1656523737orange-youtube-logo.png" width="50"> &nbsp;&nbsp; **CoWatch**: Redefining how users experience content on YouTube! 🚀
+Live Site: 👉 [click here](https://cowatch.vercel.app/)
 
 ### Overview
-This project is a YouTube clone, where I led frontend development and API integration using React.js and Tailwind CSS. The application features a seamlessly integrated video player for smooth YouTube video streaming, a user-friendly search bar, and ensures responsiveness for diverse screen sizes.
+**What is CoWatch?**
 
-### Motivation
-
-As a fresh developer, my motivation for undertaking this YouTube Clone project was driven by a desire to learn and apply new technologies in a practical setting. Taking the reins in frontend development, I aimed to gain hands-on experience with React.js, Tailwind CSS, and API integration using the YouTube Data API. This project serves as a tangible learning playground, allowing me to showcase my skills while tackling real-world challenges.
+CoWatch is an extension of my previous project, the YouTube clone, where I've taken the concept of collaborative video viewing to the next level. With CoWatch, users can seamlessly watch YouTube videos together with their friends while enjoying integrated video call and screen sharing features. It builds upon the foundation of the YouTube clone, enhancing the user experience with real-time interaction and shared enjoyment of content.
 
 ### Why I Built the Project This Way
-- Created a seamless YouTube video streaming experience.
-- Chose React.js for its declarative approach and Tailwind CSS for a visually appealing and responsive design.
+- Revolutionizing YouTube Viewing: CoWatch redefines how users engage with YouTube content, fostering collaborative experiences regardless of physical distance.
+- Exploring the Intersection: This project explores the convergence of video streaming, real-time communication, and collaborative experiences, offering a unique blend of technology and interactivity.
+- Playground for Experimentation: CoWatch serves as my experimental playground, allowing me to delve into cutting-edge technologies, refine my skills, and push the boundaries of what's possible in web development.
+- Commitment to Continuous Improvement: By building CoWatch, I demonstrate my commitment to continuous learning and improvement as a developer, constantly seeking new challenges and opportunities for growth.
 
-### Features
+### Additional Innovative Features
 
-- **Dynamic Video Player:**
-  - Seamlessly integrated video player for smooth YouTube video streaming.
-  - Enhanced user experience with a responsive and intuitive design.
+- **Real-Time Peer-to-Peer Connection:**
+  - CoWatch utilizes WebRTC technology to establish peer-to-peer connections between users, ensuring low-latency and high-quality video streaming without the need for centralized servers. It allows users to interact and communicate with their friends while watching videos together
 
-- **User-Friendly Search Bar:**
-  - Designed an intuitive search bar for easy navigation and content discovery.
+- **Screen Sharing Functionality:** 
+  - Users can share their screens with friends, enabling collaborative viewing of YouTube videos.
 
-- **Responsive Design:**
-  - Ensured the application's responsiveness for diverse screen sizes, providing a consistent experience.
+- **Dynamic Room Creation:**
+  - Users can easily create new viewing rooms or join existing ones by simply entering a room ID, making it effortless to start watching videos with friends.
 
-### Technologies Used
+### The Tech Behind CoWatch
+Building CoWatch has been an incredible learning journey for me, where I've had the opportunity to dive deep into several exciting technologies:
 
-- **React.js:** A powerful JavaScript library for building user interfaces.
+- **WebRTC**: CoWatch leverages WebRTC (Web Real-Time Communication) to establish peer-to-peer video connections between users, enabling seamless video calls for real-time interaction.
+
+- **MediaStream API**: With the MediaStream API, CoWatch can access and manipulate audio and video streams from user devices, facilitating both video playback and screen sharing features.
+
+- **PeerJS**: I've integrated PeerJS, a JavaScript library built on top of WebRTC, to simplify the process of setting up peer connections and handling signaling between clients.
+
+- **React & Recoil**: CoWatch's frontend is powered by React, with Recoil managing state to ensure a smooth and responsive user experience.
   
 - **Tailwind CSS:** A highly customizable CSS framework for modern and responsive UIs.
   
@@ -35,13 +41,13 @@ As a fresh developer, my motivation for undertaking this YouTube Clone project w
 ### Getting Started
 1. Clone the repository:
    ```bash
-   git clone https://github.com/vikasipar/youtube-clone.git
+   git clone https://github.com/vikasipar/CoWatch.git
    ```
 2. Install dependencies:
    ```bash
    npm install
    ```
-3. Set up Firebase credentials.
+3. Set up YouTube Data API credential.
 
 ### Running the App
 ```bash

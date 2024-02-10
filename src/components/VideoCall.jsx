@@ -6,6 +6,8 @@ import { FiCopy } from "react-icons/fi";
 import { LuYoutube } from "react-icons/lu";
 
 const VideoCall = () => {
+    const [host, setHost] = useState(false);
+    const [viewer, setViewer] = useState(false);
     const [roomId, setRoomId] = useState('');
     const [localroomId, setLocalroomId] = useState('');
     const [audioEnabled, setAudioEnabled] = useState(true);
@@ -86,9 +88,15 @@ const VideoCall = () => {
     };
 
     const handleStopSharing = () => {
+        const screenStream = screenShareRef.current.srcObject;
+        screenStream.getTracks().forEach(track => track.stop());
+
+        call.current = peer.current.call(roomId, localVideoRef.current.srcObject);
+        call.current.on('stream', (stream) => {
+            remoteVideoRef.current.srcObject = stream;
+        });
+
         setShareScreen(false);
-        screenShareRef.current.srcObject = null;
-        handleJoinMeeting();
     };
 
     const toggleAudio = () => {
@@ -123,42 +131,46 @@ const VideoCall = () => {
     };
 
     return (
-        <div className='flex md:flex-col w-full h-32 px-1 md:px-auto md:h-auto md:w-[16%] mx-auto fixed md:fixed border-2 border-gray-200 rounded md:px-3 md:py-2 bg-transparent backdrop-blur-[10px] bottom-0 md:bottom-auto md:right-0 md:top-16 overflow-hidden md:shadow-3xl'>
+        <div className='flex md:flex-col w-full h-32 px-1 md:px-auto md:h-auto md:w-[16%] mx-auto fixed md:fixed border-2 border-gray-300 md:border-gray-200 rounded md:px-3 md:py-2 bg-white/50 backdrop-blur-[10px] bottom-0 md:bottom-auto md:right-0 md:top-16 overflow-hidden md:shadow-3xl'>
             <h1 className='hidden md:flex md:items-center md:gap-2 text-left mb-2 text-orange-500 text-xl font-semibold'><LuYoutube className='text-2xl'/>CoWatch</h1>
             <div className='flex md:flex-col w-full md:space-y-5 my-auto'>
                 <div className='w-[48%] md:w-[99%] mx-auto overflow-hidden'>
-                    <video ref={localVideoRef} autoPlay playsInline className='z-10 rounded'></video>
-                    <div className='flex items-center justify-around w-[20%] md:w-[40%] mx-[4%] md:mx-[30%] text-center z-20 my-[-6%] md:my-[-14%] absolute text-sm md:text-lg text-stone-900'>
+                    <video ref={localVideoRef} autoPlay playsInline className='z-10 rounded border border-black'></video>
+                    <div className='flex items-center justify-around w-[20%] md:w-[40%] mx-[4%] md:mx-[30%] text-center z-20 my-[-7%] md:my-[-14%] absolute text-sm md:text-lg text-stone-900'>
                         <span onClick={toggleAudio} className='cursor-pointer p-1 bg-gray-200 rounded-full'>{audioEnabled ? <BsFillMicFill className='drop-shadow-2xl' /> : <BsFillMicMuteFill className='drop-shadow-2xl'/>}</span>
                         <span onClick={toggleVideo} className='cursor-pointer p-1 bg-gray-200 rounded-full'>{videoEnabled ? <IoVideocam className='drop-shadow-2xl'/> : <IoVideocamOff className='drop-shadow-2xl'/>}</span>
                     </div>
                 </div>
-                <div className={callConnected ? 'block w-[48%] md:w-[99%] mx-auto' : 'hidden'}>
+                <div className={callConnected ? 'block w-[48%] md:w-[99%] mx-auto border border-black' : 'hidden'}>
                     <video ref={remoteVideoRef} onClick={handleFullScreenMode} autoPlay playsInline className='rounded cursor-pointer'></video>
                 </div>
             </div>
             <div>
-                <div className='flex items-center w-full md:w-[90%] my-3 mx-auto text-xs'>
+                <div className='text-sm flex flex-col justify-around h-14 md:h-20'>
+                    <span className=''>{!(host || viewer) && <b>Pick one to continue</b>}</span>
+                    <div className='flex flex-wrap w-full mx-auto justify-around md:justify-center md:gap-3'>
+                        <button className={`${host ? 'bg-orange-500 text-white rounded' : 'bg-white' } border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white p-1 md:w-[30%] h-[2rem] rounded`} rounded onClick={() => {setHost(true); setViewer(false)}}>Host</button>
+                        <button className={`${viewer ? 'bg-orange-500 text-white rounded' : 'bg-white' } border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white p-1 md:w-[30%] h-[2rem] rounded`} onClick={() => {setViewer(true); setHost(false)}}>Viewer</button>
+                    </div>
+                </div>
+                {host &&
+                <div className='flex items-center w-full md:w-[90%] md:my-3 mx-auto text-xs'>
                     <input type='text' value={roomId} onChange={(e) => setRoomId(e.target.value)} placeholder={`Enter friend's room id`} className='border border-orange-500 p-1 w-[70%] overflow-x-scroll h-[2rem] rounded-l' />
                     <button onClick={handleJoinMeeting} className='border border-orange-500 bg-orange-500 text-white p-1 w-[30%] h-[2rem] rounded-r'>Join</button>
-                </div>
-                <div className='flex text-center bg-white text-[10px] md:text-xs' onClick={copyid}>
-                <FiCopy className='text-base'/>{localroomId}
-                </div>
-                { callConnected ? 
-                <div className='mt-2 md:mt-6 text-[9px] md:text-xs space-x-1'>
-                    <button onClick={() => {setShareScreen(true); handleJoinMeeting()}} className='bg-orange-500 text-white p-1 rounded mb-1'>Share Screen</button>
-                    <button onClick={handleStopSharing} className='bg-orange-500 text-white p-1 rounded mb-1'>Stop Sharing</button>
-                    <video ref={screenShareRef} onClick={handleFullScreenModeLocal} autoPlay playsInline className='hidden md:block z-10 rounded w-full h-28'></video>
-                </div>
-                :
-                <div className='md:mt-7 text-xs text-left overflow-y-scroll md:overflow-y-hidden'>
-                    <ul><b>Watch YouTube videos with a friend:</b>
-                        <li className='mt-2'> Enter your friend's room ID and click "Join".</li>
-                        <li className='mt-2'><b>OR</b></li>
-                        <li className='mt-2'> Click the room id to copy and share it with your friend.</li>
-                    </ul>
-                </div>    
+                </div>}
+                {viewer &&
+                <div className='flex text-center bg-white text-[10px] md:text-xs my-3' onClick={copyid}>
+                    <FiCopy className='text-base'/>{localroomId}
+                </div>}
+                { callConnected &&
+                    <div className='mt-2 md:mt-6 text-[9px] md:text-xs space-x-1'>
+                    {host && 
+                    <>
+                        <button onClick={() => {setShareScreen(true); handleJoinMeeting()}} className='bg-blue-800 text-white p-1 rounded mb-1'>Share Screen</button>
+                        <button onClick={handleStopSharing} className='bg-red-600 text-white p-1 rounded mb-1'>Stop Sharing</button>
+                    </>}
+                    <video ref={screenShareRef} onClick={handleFullScreenModeLocal} autoPlay playsInline className={shareScreen ? `hidden md:block z-10 rounded w-full h-28` : `hidden`}></video>
+                    </div>
                 }
             </div>
         </div>
