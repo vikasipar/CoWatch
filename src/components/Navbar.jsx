@@ -45,7 +45,7 @@ function Navbar() {
     }
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between m-0">
+    <div className="flex flex-col md:flex-row md:items-center justify-between overflow-hidden">
         <img src="https://download.logo.wine/logo/YouTube/YouTube-Logo.wine.png" alt="youtube" className="w-36 md:w-48 cursor-pointer" onClick={() => setHomeAtom(true)} />
         <form onSubmit={submitHandler} className="flex justify-center w-[90%]">
             <input
