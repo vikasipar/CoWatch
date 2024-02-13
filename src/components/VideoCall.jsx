@@ -55,7 +55,13 @@ const VideoCall = () => {
         if (shareScreen) {
             try {
                 // Get the screen stream
-                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+    
+                // Get the audio stream
+                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    
+                // Add the audio track from the audioStream to the screenStream
+                screenStream.addTrack(audioStream.getAudioTracks()[0]);
     
                 // Display the screen stream locally
                 screenShareRef.current.srcObject = screenStream;
@@ -86,6 +92,7 @@ const VideoCall = () => {
         }
         setCallConnected(true);
     };
+    
 
     const handleStopSharing = () => {
         const screenStream = screenShareRef.current.srcObject;

@@ -5,7 +5,6 @@ import { useSetRecoilState } from "recoil";
 function DemoVideos() {
   const setClickedVideoId = useSetRecoilState(clickedVideoIdAtom);
   const setHomeAtom = useSetRecoilState(homeAtom);
-  // console.log("rendered: home");
 
   return (
     <div>
