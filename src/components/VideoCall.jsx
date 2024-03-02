@@ -28,9 +28,8 @@ const VideoCall = () => {
             setLocalroomId(id);
         });
 
-        // get user media (i.e. audio, video)
-        // navigator.mediaDevices.getUserMedia({ video: true, audio: true})
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false})
+        // get user media i.e. audio, video
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true})
             .then((stream) => {
                 localVideoRef.current.srcObject = stream;
             })
@@ -58,28 +57,15 @@ const VideoCall = () => {
         if (shareScreen) {
             try {
                 // Get the screen stream
-                // const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-    
-                // Get the audio stream
-                // const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                // const audioStream = await navigator.mediaDevices.getDisplayMedia({ audio: true });
-    
-                // Clone the audio track from the audioStream
-                // const audioTrack = audioStream.getAudioTracks()[0].clone();
-    
-                // Add the cloned audio track to the screenStream
-                // screenStream.addTrack(audioTrack);
-    
-                // Display the screen stream locally
-                // screenShareRef.current.srcObject = screenStream;
-                
                 const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-                const audioTrack = screenStream.getAudioTracks()[0]; // Get the audio track from screenStream
+                const audioTrack = screenStream.getAudioTracks()[0];
+    
+                screenShareRef.current.srcObject = screenStream;
 
-                // Call remote peer with the screen stream
+                // call rremote friend with the screen stream
                 call.current = peer.current.call(roomId, screenStream);
 
-                // Handle call close
+                // call close
                 call.current.on('close', () => {
                     screenShareRef.current.srcObject = null;
                 });
@@ -87,16 +73,15 @@ const VideoCall = () => {
                 console.error("Error accessing screen media devices: ", error);
             }
         } else {
-            // Call remote peer with the local video stream
+            // call remote friend with the local video stream
             call.current = peer.current.call(roomId, localVideoRef.current.srcObject);
     
-            // Display the remote stream in the remote video element
             call.current.on('stream', (stream) => {
                 remoteVideoRef.current.srcObject = stream;
                 popz("dark", "success", "Call Connected!", "false");
             });
     
-            // Handle call close
+            // handle call close
             call.current.on('close', () => {
                 remoteVideoRef.current.srcObject = null;
             });
@@ -109,6 +94,7 @@ const VideoCall = () => {
         const screenStream = screenShareRef.current.srcObject;
         screenStream.getTracks().forEach(track => track.stop());
 
+        // call remote friend 
         call.current = peer.current.call(roomId, localVideoRef.current.srcObject);
         call.current.on('stream', (stream) => {
             remoteVideoRef.current.srcObject = stream;
