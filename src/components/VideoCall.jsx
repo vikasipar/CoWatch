@@ -58,24 +58,27 @@ const VideoCall = () => {
         if (shareScreen) {
             try {
                 // Get the screen stream
-                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                // const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
     
                 // Get the audio stream
                 // const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                const audioStream = await navigator.mediaDevices.getDisplayMedia({ audio: true });
+                // const audioStream = await navigator.mediaDevices.getDisplayMedia({ audio: true });
     
                 // Clone the audio track from the audioStream
-                const audioTrack = audioStream.getAudioTracks()[0].clone();
+                // const audioTrack = audioStream.getAudioTracks()[0].clone();
     
                 // Add the cloned audio track to the screenStream
-                screenStream.addTrack(audioTrack);
+                // screenStream.addTrack(audioTrack);
     
                 // Display the screen stream locally
-                screenShareRef.current.srcObject = screenStream;
-    
+                // screenShareRef.current.srcObject = screenStream;
+                
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                const audioTrack = screenStream.getAudioTracks()[0]; // Get the audio track from screenStream
+
                 // Call remote peer with the screen stream
                 call.current = peer.current.call(roomId, screenStream);
-    
+
                 // Handle call close
                 call.current.on('close', () => {
                     screenShareRef.current.srcObject = null;
@@ -90,6 +93,7 @@ const VideoCall = () => {
             // Display the remote stream in the remote video element
             call.current.on('stream', (stream) => {
                 remoteVideoRef.current.srcObject = stream;
+                popz("dark", "success", "Call Connected!", "false");
             });
     
             // Handle call close
