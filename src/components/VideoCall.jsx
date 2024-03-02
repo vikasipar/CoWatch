@@ -4,6 +4,7 @@ import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { IoVideocam, IoVideocamOff } from "react-icons/io5";
 import { FiCopy } from "react-icons/fi";
 import { LuYoutube } from "react-icons/lu";
+import { usePopz } from 'popupz';
 
 const VideoCall = () => {
     const [host, setHost] = useState(false);
@@ -19,6 +20,7 @@ const VideoCall = () => {
     const screenShareRef = useRef(null);
     const peer = useRef(null);
     const call = useRef(null);
+    const { popz } = usePopz();
 
     useEffect(() => {
         peer.current = new Peer();
@@ -27,7 +29,8 @@ const VideoCall = () => {
         });
 
         // get user media (i.e. audio, video)
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true})
+        // navigator.mediaDevices.getUserMedia({ video: true, audio: true})
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false})
             .then((stream) => {
                 localVideoRef.current.srcObject = stream;
             })
@@ -58,10 +61,14 @@ const VideoCall = () => {
                 const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
     
                 // Get the audio stream
-                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                // const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioStream = await navigator.mediaDevices.getDisplayMedia({ audio: true });
     
-                // Add the audio track from the audioStream to the screenStream
-                screenStream.addTrack(audioStream.getAudioTracks()[0]);
+                // Clone the audio track from the audioStream
+                const audioTrack = audioStream.getAudioTracks()[0].clone();
+    
+                // Add the cloned audio track to the screenStream
+                screenStream.addTrack(audioTrack);
     
                 // Display the screen stream locally
                 screenShareRef.current.srcObject = screenStream;
@@ -134,7 +141,7 @@ const VideoCall = () => {
 
     const copyid = async() => {
         await navigator.clipboard.writeText(localroomId);
-        alert('room id copied!');
+        popz('dark','','Room ID Copied!','false');
     };
 
     return (
